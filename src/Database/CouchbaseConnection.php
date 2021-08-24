@@ -17,7 +17,7 @@ use Closure;
 use Couchbase\Bucket;
 use Couchbase\Cluster;
 use Couchbase\ClusterManager;
-use Couchbase\N1qlQuery;
+use CouchbaseN1qlQuery;
 use Illuminate\Database\Connection;
 use Ytake\LaravelCouchbase\Events\QueryPrepared;
 use Ytake\LaravelCouchbase\Events\ResultReturning;
@@ -63,7 +63,7 @@ class CouchbaseConnection extends Connection
     protected $metrics;
 
     /** @var int  default consistency */
-    protected $consistency = N1qlQuery::NOT_BOUNDED;
+    protected $consistency = \CouchbaseN1qlQuery::NOT_BOUNDED;
 
     /** @var string[]  function to handle the retrieval of various properties. */
     private $properties = [
@@ -308,7 +308,7 @@ class CouchbaseConnection extends Connection
      *
      * @return mixed
      */
-    protected function executeQuery(N1qlQuery $query)
+    protected function executeQuery(CouchbaseN1qlQuery $query)
     {
         $bucket = $this->openBucket($this->bucket);
         $this->registerOption($bucket);
@@ -327,7 +327,7 @@ class CouchbaseConnection extends Connection
      */
     protected function execute(string $query, array $bindings = [])
     {
-        $query = N1qlQuery::fromString($query);
+        $query = CouchbaseN1qlQuery::fromString($query);
         $query->consistency($this->consistency);
         $query->crossBucket($this->crossBucket);
         $query->positionalParams($bindings);
@@ -401,7 +401,7 @@ class CouchbaseConnection extends Connection
             if ($this->pretending()) {
                 return 0;
             }
-            $query = N1qlQuery::fromString($query);
+            $query = CouchbaseN1qlQuery::fromString($query);
             $query->consistency($this->consistency);
             $query->crossBucket($this->crossBucket);
             $query->namedParams(['parameters' => $bindings]);
@@ -427,7 +427,7 @@ class CouchbaseConnection extends Connection
             if ($this->pretending()) {
                 return 0;
             }
-            $query = N1qlQuery::fromString($query);
+            $query = CouchbaseN1qlQuery::fromString($query);
             $query->consistency($this->consistency);
             $query->crossBucket($this->crossBucket);
             $query->positionalParams($bindings);
@@ -565,7 +565,7 @@ class CouchbaseConnection extends Connection
     /**
      * @param N1qlQuery $queryObject
      */
-    protected function firePreparedQuery(N1qlQuery $queryObject)
+    protected function firePreparedQuery(CouchbaseN1qlQuery $queryObject)
     {
         if (isset($this->events)) {
             $this->events->dispatch(new QueryPrepared($queryObject));
