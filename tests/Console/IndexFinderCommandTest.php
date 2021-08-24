@@ -14,7 +14,7 @@ class IndexFinderCommandTest extends \CouchbaseTestCase
         parent::setUp();
         $cluster = $this->app['db'];
         $this->command = new \Ytake\LaravelCouchbase\Console\IndexFinderCommand($cluster);
-        $this->command->setLaravel(new MockApplication());
+        $this->command->setLaravel(new MockApplication);
     }
 
     /**
