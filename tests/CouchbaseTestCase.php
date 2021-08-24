@@ -12,7 +12,7 @@ class CouchbaseTestCase extends \PHPUnit\Framework\TestCase
     /** @var \Illuminate\Container\Container $app */
     protected $app;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->createApplicationContainer();
     }
@@ -102,7 +102,7 @@ class CouchbaseTestCase extends \PHPUnit\Framework\TestCase
         \Illuminate\Container\Container::setInstance($this->app);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->app = null;
     }
